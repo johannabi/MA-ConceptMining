@@ -1,3 +1,9 @@
+# project files
+MA-ConceptMining/data/jobads/
+MA-ConceptMining/data/corpus-of-german-language-fiction
+MA-ConceptMining/data/embeddings
+MA-ConceptMining/data/skills
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
