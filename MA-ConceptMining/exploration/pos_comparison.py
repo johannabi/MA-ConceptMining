@@ -32,8 +32,8 @@ def process_text(jobads, nlp):
         for token in doc:
             if (token.pos_ == 'X'):#  & (len(token.text) < 2):
                 x_tokens.add(token.text)
-            else:
-                pos_tags.append(token.pos_)
+            # else:
+            pos_tags.append(token.pos_)
     for x in x_tokens:
         print(x)
 
@@ -45,19 +45,18 @@ def compare_pos_tags():
 
     print('read jobads from sqlite')
     jobads = inputoutput.read_jobads_content('../data/jobads/text_kernel_replaced_dev.db')
-    jobads = jobads[:300]
+    # jobads = jobads[:300]
     job_pos = process_text(jobads, nlp)
-    print(len(job_pos))
+    print(len(job_pos), ' job pos')
     print('read gutenberg corpus from .txt-files')
     gutenberg_pos = read_german_fiction(len(job_pos), nlp)
-
-    print(len(gutenberg_pos))
 
     job_set = set(job_pos)
     for s in job_set:
         count = job_pos.count(s)
         print(s, count)
     print('***************')
+    print(len(gutenberg_pos), ' cglf')
     gut_set = set(gutenberg_pos)
     for s in gut_set:
         count = gutenberg_pos.count(s)
@@ -70,21 +69,26 @@ def get_pos_tokens(pos_tag):
     tokens = list()
     print('read jobads')
     jobads = inputoutput.read_jobads_content('../data/jobads/text_kernel_replaced_dev.db')
-    jobads = jobads[:300]
+    # jobads = jobads[:300]
 
     for job in jobads:
         doc = nlp(job)
         for t in doc:
             if t.pos_ == pos_tag:
-                tokens.append(t.text)
+                tokens.append(t.lemma_)
 
     return tokens
 
+# compare_pos_tags()
+adj = get_pos_tokens('ADJ')
+adj_set = set(adj)
+adj_dict = dict()
 
+for a in adj_set:
+    adj_dict[a] = adj.count(a)
 
-compare_pos_tags()
-# adj = get_pos_tokens('ADJ')
-# adj_set = set(adj)
-#
-# for a in adj_set:
-#     print(a, adj.count(a))
+sort = sorted(adj_dict.items(), key=lambda item: item[1])
+for s in sort:
+    print(s)
+
+print('all ADJ:', len(adj))
