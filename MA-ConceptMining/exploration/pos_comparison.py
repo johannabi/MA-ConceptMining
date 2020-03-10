@@ -10,6 +10,8 @@ def read_german_fiction(limit, nlp):
 
     pos_tags = list()
     for file in os.listdir(dir):
+        if '(19' not in file:
+            continue
         with open(dir+'/'+file, 'r', encoding='utf-8') as f:
             content = f.read()
             sent = sent_tokenize(content)
@@ -49,7 +51,6 @@ def compare_pos_tags():
     print('read gutenberg corpus from .txt-files')
     gutenberg_pos = read_german_fiction(len(job_pos), nlp)
 
-
     print(len(gutenberg_pos))
 
     job_set = set(job_pos)
@@ -81,9 +82,9 @@ def get_pos_tokens(pos_tag):
 
 
 
-# compare_pos_tags()
-adj = get_pos_tokens('ADJ')
-adj_set = set(adj)
-
-for a in adj_set:
-    print(a, adj.count(a))
+compare_pos_tags()
+# adj = get_pos_tokens('ADJ')
+# adj_set = set(adj)
+#
+# for a in adj_set:
+#     print(a, adj.count(a))
