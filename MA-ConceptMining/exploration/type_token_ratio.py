@@ -86,7 +86,7 @@ def compute_ratio(tokens):
 
 
 logging.info('read jobads from sqlite')
-sentences = inputoutput.read_file_by_line('../data/jobads/all_sentences.txt', False)
+sentences = inputoutput.read_file_by_line('../data/jobads/all_sentences.txt')
 # sentences = sentences[:50]
 logging.info(str(len(sentences)) +  ' sentences')
 

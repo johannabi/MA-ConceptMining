@@ -15,7 +15,7 @@ def load_and_compare():
 
     # skills = io.read_wordlist('../data/skills/competences.txt', only_unigrams=True)
     # skills = io.read_esco_csv('../data/skills/skills_de.csv', only_unigrams=True, synsets=False)
-    # skills = io.read_ams('../data/skills/CategorizedCompetences.db', level=3, only_unigrams=True).keys()
+    # skills = io.read_ams('../data/skills/AMS_CategorizedCompetences.db', level=3, only_unigrams=True).keys()
 
     m_vocab = w_model.vocab
 
