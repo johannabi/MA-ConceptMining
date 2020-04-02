@@ -4,7 +4,7 @@ from gensim.models import KeyedVectors
 
 ams = io.read_ams_synsets('../data/skills/AMS_CategorizedCompetences.db', True)
 
-skills = io.read_esco_csv('../data/skills/skills_de.csv', True, True)
+skills = io.read_esco_csv('../data/skills/esco_skills_de.csv', True, True)
 j_path = "../data/embeddings/german_jobad.model"
 j_model = KeyedVectors.load_word2vec_format(j_path, binary=True)
 

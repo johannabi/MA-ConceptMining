@@ -37,15 +37,17 @@ def read_esco_csv(file, only_unigrams, synsets):
         reader = csv.reader(csvfile, delimiter=',', quotechar='"')
 
         next(reader, None) # skip header
-        rows = 0
+
         for row in reader:
-            rows += 1
             pref_label = row[4]
             alt_labels = row[5]
 
             synset = set()
 
-            if ' ' not in pref_label:
+            if only_unigrams:
+                if ' ' not in pref_label:
+                    synset.add(pref_label)
+            else:
                 synset.add(pref_label)
             if len(alt_labels) > 0:
                 label_list = alt_labels.split('\n')
@@ -61,13 +63,21 @@ def read_esco_csv(file, only_unigrams, synsets):
                     synset_list.append(synset)
             else:
                 skills.extend(synset)
+
     if synsets:
         return synset_list
     else:
         return skills
 
 
-def read_ams_synsets(file, only_unigrams):
+def read_ams_synsets(file, only_unigrams, synsets):
+    """
+
+    :param file:
+    :param only_unigrams:
+    :param synsets:
+    :return:
+    """
 
     conn = sql.connect(file)
     sql_select = """SELECT Synonyms, Orig_String FROM Categories"""
@@ -76,57 +86,47 @@ def read_ams_synsets(file, only_unigrams):
 
     rows = c.fetchall()
 
-    synsets = set()
+    if synsets:
+        synsets = set()
+        for r in rows:
+            syns = r[0]
+            comp = r[1]
 
-    for r in rows:
-        syns = r[0]
-        comp = r[1]
+            if syns is None:
+                continue
 
-        if syns is None:
-            continue
+            # collect als synonyms that are single-word-expressions
+            synset = set([s.lower() for s in syns.split(' | ') if ' ' not in s])
+            if only_unigrams:
+                if ' ' not in comp:
+                    synset.add(comp.lower())
+            else:
+                synset.add(comp.lower())
 
-        # collect als synonyms that are single-word-expressions
-        synset = set([s.lower() for s in syns.split(' | ') if ' ' not in s])
-        if ' ' not in comp:
-            synset.add(comp.lower())
+            if len(synset) > 1:
+                synsets.add(tuple(synset))
 
-        if len(synset) > 1:
-            synsets.add(tuple(synset))
-
-    c.close()
-
-    return synsets
-
-
-# def read_ams(file, level, only_unigrams):
-#
-#     word_list = dict()
-#
-#     conn = sql.connect(file)
-#     if level == 1:
-#         sql_select = """SELECT Competence, FirstLevel FROM Categories"""
-#     elif level == 2:
-#         sql_select = """SELECT Competence, SecondLevelCategory FROM Categories"""
-#     else:
-#         sql_select = """SELECT Competence, ThirdLevelCategory FROM Categories"""
-#     c = conn.cursor()
-#     c.execute(sql_select)
-#
-#     rows = c.fetchall()
-#
-#     for r in rows:
-#         comp = r[0]
-#         cat = r[1]
-#         if only_unigrams:
-#             if ' ' not in comp:
-#                 word_list[comp] = cat
-#         else:
-#             word_list[comp] = cat
-#
-#     return word_list
+        c.close()
+        return synsets
+    else:
+        skills = list()
+        for r in rows:
+            comp = r[1]
+            if only_unigrams:
+                if ' ' not in comp:
+                    skills.append(comp.lower())
+            else:
+                skills.append(comp.lower())
+        c.close()
+        return skills
 
 
 def read_jobads_content(file):
+    """
+    reads all jobads from given sqlite file
+    :param file: path to file
+    :return: list of all jobads
+    """
     conn = sql.connect(file)
 
     sql_select = """SELECT STELLENBESCHREIBUNG FROM jobs_textkernel"""

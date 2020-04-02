@@ -86,9 +86,8 @@ def compute_ratio(tokens):
 
 
 logging.info('read jobads from sqlite')
-sentences = inputoutput.read_file_by_line('../data/jobads/all_sentences.txt')
-# sentences = sentences[:50]
-logging.info(str(len(sentences)) +  ' sentences')
+sentences = inputoutput.read_jobads_content('../data/jobads/text_kernel_jobads.db')
+logging.info(str(len(sentences)) +  ' jobads')
 
 nlp = spacy.load('de_core_news_sm')
 jobad_tokens = get_jobads_tokens(sentences, nlp)

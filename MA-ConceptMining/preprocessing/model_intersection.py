@@ -63,8 +63,8 @@ def build_intersection():
 
     w_wv_i_model, j_wv_model = intersect_models(w_wv_model, j_wv_model)
 
-    w_wv_i_model.save_word2vec_format('../data/embeddings/german_inter2.model')
-    j_wv_model.save_word2vec_format('../data/embeddings/jobad_inter2.model')
+    w_wv_i_model.save_word2vec_format('../data/embeddings/german_inter.model')
+    j_wv_model.save_word2vec_format('../data/embeddings/german_jobad_inter.model')
 
 
 build_intersection()

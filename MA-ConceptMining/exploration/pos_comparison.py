@@ -44,7 +44,7 @@ def compare_pos_tags():
     nlp = spacy.load('de_core_news_sm')
 
     print('read jobads from sqlite')
-    jobads = inputoutput.read_jobads_content('../data/jobads/text_kernel_replaced_dev.db')
+    jobads = inputoutput.read_jobads_content('../data/jobads/text_kernel_jobads.db')
     # jobads = jobads[:300]
     job_pos = process_text(jobads, nlp)
     print(len(job_pos), ' job pos')
@@ -68,7 +68,7 @@ def get_pos_tokens(pos_tag):
 
     tokens = list()
     print('read jobads')
-    jobads = inputoutput.read_jobads_content('../data/jobads/text_kernel_replaced_dev.db')
+    jobads = inputoutput.read_jobads_content('../data/jobads/text_kernel_jobads.db')
     # jobads = jobads[:300]
 
     for job in jobads:

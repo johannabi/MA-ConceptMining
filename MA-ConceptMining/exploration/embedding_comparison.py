@@ -7,14 +7,14 @@ warnings.filterwarnings(action='ignore', category=UserWarning, module='gensim')
 
 def load_and_compare():
     # load intersected models as KeyedVectors
-    w_path = "../data/embeddings/german_inter2.model"
-    j_path = "../data/embeddings/jobad_inter2.model"
+    w_path = "../data/embeddings/german_inter.model"
+    j_path = "../data/embeddings/german_jobad_inter.model"
 
     w_model = KeyedVectors.load_word2vec_format(w_path)
     j_model = KeyedVectors.load_word2vec_format(j_path)
 
     # skills = io.read_wordlist('../data/skills/competences.txt', only_unigrams=True)
-    # skills = io.read_esco_csv('../data/skills/skills_de.csv', only_unigrams=True, synsets=False)
+    # skills = io.read_esco_csv('../data/skills/esco_skills_de.csv', only_unigrams=True, synsets=False)
     # skills = io.read_ams('../data/skills/AMS_CategorizedCompetences.db', level=3, only_unigrams=True).keys()
 
     m_vocab = w_model.vocab

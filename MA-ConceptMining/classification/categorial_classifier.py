@@ -1,6 +1,5 @@
 import nltk.classify.decisiontree as dtree
 import random
-import spacy
 from preprocessing import preprocessing as pp
 
 import logging
